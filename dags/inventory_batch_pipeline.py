@@ -35,7 +35,7 @@ trans_fact_inventory_snapshot_sql = """
     INSERT INTO fact_inventory_snapshot(product_id, amount, snapshot_date_id)
     SELECT * FROM fact_inventory_snapshot 
     WHERE snapshot_date_id = to_char(DATE('{{ ds }}') - INTERVAL '2 day', 'YYYYMMDD')::integer
-    AND product_id NOT EXIST (
+    AND product_id NOT IN (
     SELECT DISTINCT product_id FROM stg_inventory WHERE inventory_date = DATE('{{ ds }}') - INTERVAL '1 day')
     
     UNION ALL 
